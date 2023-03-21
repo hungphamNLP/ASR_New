@@ -1,16 +1,11 @@
-FROM nvidia/cuda:11.6.0-cudnn8-runtime-ubuntu20.04
-
-RUN apt-get update && \
-    apt-get install -y wget
-RUN wget https://repo.anaconda.com/archive/Anaconda3-2021.05-Linux-x86_64.sh -O ~/anaconda.sh && \
-    /bin/bash ~/anaconda.sh -b -p /opt/anaconda3 && \
-    rm ~/anaconda.sh
-
-ENV PATH="/opt/anaconda3/bin:${PATH}"
+FROM ubuntu:latest
+WORKDIR /app
+RUN apt-get update -y
+RUN apt-get install -y python3-pip python3-dev build-essential hdf5-tools libgl1 libgtk2.0-dev
 
 COPY . /app
-RUN pip install -r requirement.txt
-EXPOSE 8080
+RUN pip install -r requirements.txt
+EXPOSE 3000
 
 RUN echo "completed!"
-CMD ["python","api.py"]
+CMD ["python3","api.py"]
